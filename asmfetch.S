@@ -27,7 +27,7 @@
 # customization
 .include "colors/default.S"
 .include "kernel/without_machine.S"
-.include "logo/fedora.S"
+.include "logo/arch.S"
 .include "shell/path.S"
 
 .global _start
