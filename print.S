@@ -22,15 +22,9 @@ println:
 	dec rcx
 	jnz println
 
-	mov bl, '\n'
-	mov [print_buf + r10], bl
+	mov byte ptr [print_buf + r10], '\n'
 	inc r10
 
-	ret
-
-printc:
-	mov [print_buf + r10], bl
-	inc r10
 	ret
 
 flush:

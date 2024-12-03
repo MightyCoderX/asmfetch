@@ -1,6 +1,14 @@
 storage_label: .ascii "Storage   "
+statfs_path: .asciz "/"
+
+.lcomm statfs_buf, 128
 
 print_storage:
+	mov rax, SYS_STATFS
+	mov rdi, offset statfs_path
+	mov rsi, offset statfs_buf
+	syscall
+
 	mov  rsi, offset storage_symbol
 	mov  rcx, 6
 	call print
@@ -59,8 +67,8 @@ print_storage_numbers:
 	add  rsi, offset number_buf
 	call print
 
-	mov  bl, '%'
-	call printc
+	mov byte ptr [print_buf + r10], '%'
+	inc r10
 
 	mov  rsi, offset reset
 	mov  rcx, 4
@@ -89,8 +97,8 @@ print_storage_number:
 	call print
 
 print_storage_decimal:
-	mov  bl, '.'
-	call printc
+	mov byte ptr [print_buf + r10], '.'
+	inc r10
 
 	mov  rcx, 2
 	call print
@@ -98,6 +106,6 @@ print_storage_decimal:
 	ret
 
 print_storage_zero:
-	mov  bl, '0'
-	call printc
-	jmp  print_storage_decimal
+	mov byte ptr [print_buf + r10], '0'
+	inc r10
+	jmp print_storage_decimal
